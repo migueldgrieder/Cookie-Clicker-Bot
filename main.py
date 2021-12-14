@@ -22,35 +22,46 @@ cookies_ps_id = browser.find_element_by_id("compactCookies")
 farms = [browser.find_element_by_id("productPrice" + str(i)) for i in range(1,-1,-1)]
 upgrade = browser.find_element_by_id("upgrades")
 
-productOwned_num = "1" 
+productOwned_farm = "1" 
 actions = ActionChains(browser)
-recalc = False
 #http://www.koalastothemax.com/
 
 
-for i in range(500000): 
+def buy_farm(farm):
+    upgrade_actions = ActionChains(browser)
+    upgrade_actions.move_to_element(farm)
+    upgrade_actions.click(farm)
+    upgrade_actions.perform()
 
-    owned = browser.find_element_by_id("productOwned" + productOwned_num)
-    if owned.text == "1":
-        productOwned_num = str(int(productOwned_num)+1)
+def check_unlock_next_farm(productOwned_farm):
+    owned_qtd_html = browser.find_element_by_id("productOwned" + productOwned_farm)
+    if owned_qtd_html.text == "1":
+        productOwned_farm = str(int(productOwned_farm)+1)
+        farms = [browser.find_element_by_id("productPrice" + str(i)) for i in range(productOwned_farm,-1,-1)]
+    pass
 
-        farms = [browser.find_element_by_id("productPrice" + str(i)) for i in range(productOwned_num,-1,-1)]
-    
 
-    if recalc == True:  
-
-        farms = [browser.find_element_by_id("productPrice" + str(i)) for i in range(1,17,-1)]
-        upgrade = browser.find_element_by_id("upgrades")
-
+for i in range(5000): 
     actions.click(cookie)
     actions.perform() 
+
+    check_unlock_next_farm(productOwned_farm)
+
     count = int(cookie_count.text.split(" ")[0])
+    len_farms = len(farms)
+
+
+    for i in range(len_farms):
+        value_farm = int(farms[i].text) 
+        if i > 0:
+            value_next_farm = int(farms[i-1].text) 
+            if value_farm * 4 < value_next_farm: 
+                if value_farm <= count: 
+                    buy_farm(farms[i])
+        else:
+            if value_farm <= count: 
+                buy_farm(farms[i])
+                
+
+
     
-    len_farm = len(farm)
-    for farm in farms: 
-        value_farm = int(farm.text) 
-        if value_farm <= count: 
-            upgrade_actions = ActionChains(browser)
-            upgrade_actions.move_to_element(farm)
-            upgrade_actions.click(farm)
-            upgrade_actions.perform()
