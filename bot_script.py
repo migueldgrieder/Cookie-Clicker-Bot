@@ -12,12 +12,12 @@ browser = webdriver.Chrome(executable_path=driver_path, chrome_options=option)
 
 browser.get("https://orteil.dashnet.org/cookieclicker/")
 
-browser.implicitly_wait(5) # Espera 5 segundos
+browser.implicitly_wait(10) # Espera 5 segundos
+
 
 cookie = browser.find_element_by_id("bigCookie") #Objeto cookie
 cookie_count = browser.find_element_by_id("cookies")
 cookies_ps_id = browser.find_element_by_id("compactCookies")
-
 
 farms = [browser.find_element_by_id("productPrice" + str(i)) for i in range(1,-1,-1)]
 upgrade = browser.find_element_by_id("upgrades")
@@ -39,6 +39,7 @@ def check_unlock_next_farm(productOwned_farm):
         productOwned_farm = str(int(productOwned_farm)+1)
         farms = [browser.find_element_by_id("productPrice" + str(i)) for i in range(productOwned_farm,-1,-1)]
     pass
+
 
 
 for i in range(5000): 
