@@ -14,9 +14,15 @@ class CookieClickerBot:
             self.controller()
     
     def setup(self):
-        #Firefox - geckodriver - Windows
+        
+        '''#Firefox - geckodriver - Windows
         driver_path = "C:/Program Files (x86)/geckodriver.exe"
         self.browser = webdriver.Firefox(executable_path=driver_path)
+        self.browser.get("https://orteil.dashnet.org/cookieclicker/")'''
+
+        #Chrome - chromedriver - Windows
+        driver_path = "C:/Users/migpl/Desktop/Code/chromedriver_win32/chromedriver.exe"
+        self.browser = webdriver.Chrome(executable_path=driver_path)
         self.browser.get("https://orteil.dashnet.org/cookieclicker/")
 
     def basic_elements(self):
